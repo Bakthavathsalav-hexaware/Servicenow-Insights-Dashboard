@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Box, Skeleton } from '@mui/material'
  
+import { useRefresh } from '../context/RefreshContext'
 import KpiCard from '../components/KpiCard'
 import PriorityPieChart from '../charts/PriorityPieChart'
 import CategoryBarChart from '../charts/CategoryBarChart'
@@ -9,13 +10,9 @@ import SlaBreachDonutChart from '../charts/SlaBreachDonutChart'
 import StateFunnelChart from '../charts/StateFunnelChart'
 import TopCallersTable from '../components/TopCallersTable'
  
-
+const Overview = () => {
+  const { refreshKey = 0} = useRefresh()
  
-type Props = {
-  refreshKey?: number
-}
- 
-const Overview = ({ refreshKey }: Props) => {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState<any>({})
  
@@ -50,17 +47,7 @@ const Overview = ({ refreshKey }: Props) => {
         fetchJson('M8'),
       ])
  
-      setData({
-        m1,
-        m6,
-        m10,
-        m2,
-        m4,
-        m5,
-        m7,
-        m9,
-        m8,
-      })
+      setData({ m1, m6, m10, m2, m4, m5, m7, m9, m8 })
     } catch (error) {
       console.error('Failed to load dashboard data', error)
     } finally {
@@ -68,8 +55,8 @@ const Overview = ({ refreshKey }: Props) => {
     }
   }
  
-  // Load on first render + when refreshKey changes
   useEffect(() => {
+    console.log('Dashboard refreshed', refreshKey)
     loadDashboard()
   }, [refreshKey])
  

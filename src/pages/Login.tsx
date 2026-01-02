@@ -1,14 +1,16 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { TextField, Button, Paper } from '@mui/material'
 import { useAuth } from '../context/AuthContext'
-
+import { useNavigate, Link } from 'react-router-dom'
+ 
 const Login = () => {
   const { signIn } = useAuth()
   const navigate = useNavigate()
+ 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
-
+ 
   const handleLogin = async () => {
     try {
       await signIn(email, password)
@@ -17,19 +19,68 @@ const Login = () => {
       setError(err.message)
     }
   }
-
+ 
   return (
-    <div>
-      <h2>Login</h2>
-      <input placeholder="Email" onChange={e => setEmail(e.target.value)} />
-      <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
-      <button onClick={handleLogin}>Login</button>
-      {error && <p>{error}</p>}
-      <p>
-        New user? <a href="/signup">Create an account</a>
-      </p>
+    <div
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Paper
+        elevation={0}
+        style={{
+          width: 360,
+          padding: 32,
+          borderRadius: 12,
+          border: '1px solid var(--aurora-border)',
+          backgroundColor: 'var(--aurora-card)',
+        }}
+      >
+        <h2 style={{ marginBottom: 24 }}>Sign in</h2>
+ 
+        <TextField
+          fullWidth
+          label="Email"
+          margin="normal"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+ 
+        <TextField
+          fullWidth
+          label="Password"
+          type="password"
+          margin="normal"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+ 
+        {error && (
+          <p style={{ color: 'red', marginTop: 8 }}>{error}</p>
+        )}
+ 
+        <Button
+          fullWidth
+          variant="contained"
+          onClick={handleLogin}
+          style={{
+            marginTop: 24,
+            backgroundColor: 'var(--aurora-primary)',
+          }}
+        >
+          Login
+        </Button>
+ 
+        <p style={{ marginTop: 16, textAlign: 'center' }}>
+          Don’t have an account?{' '}
+          <Link to="/signup">Sign up</Link>
+        </p>
+      </Paper>
     </div>
   )
 }
-
+ 
 export default Login

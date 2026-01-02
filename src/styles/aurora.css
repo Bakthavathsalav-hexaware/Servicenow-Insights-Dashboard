@@ -1,0 +1,21 @@
+/* Aurora global styles */
+ 
+:root {
+  --aurora-bg: #f6f8fb;
+  --aurora-card: #ffffff;
+  --aurora-border: #e5e7eb;
+  --aurora-text-primary: #1f2937;
+  --aurora-text-secondary: #6b7280;
+  --aurora-primary: #6366f1;
+}
+ 
+* {
+  box-sizing: border-box;
+}
+ 
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont;
+  background-color: var(--aurora-bg);
+  color: var(--aurora-text-primary);
+}

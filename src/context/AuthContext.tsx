@@ -5,7 +5,7 @@ type AuthContextType = {
   user: any
   loading: boolean
   signIn: (email: string, password: string) => Promise<void>
-  signUp: (email: string, password: string) => Promise<void>
+  signup: (email: string, password: string) => Promise<void>
   signOut: () => Promise<void>
 }
  
@@ -16,36 +16,36 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true)
  
   useEffect(() => {
-    // Get session on refresh
+    // Initial session
     supabase.auth.getSession().then(({ data }) => {
       setUser(data.session?.user ?? null)
       setLoading(false)
     })
  
-    // Listen for auth changes
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setUser(session?.user ?? null)
-      }
-    )
+    // Listen to auth changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null)
+    })
  
     return () => {
-      listener.subscription.unsubscribe()
+      subscription.unsubscribe()
     }
   }, [])
  
   const signIn = async (email: string, password: string) => {
     const { error } = await supabase.auth.signInWithPassword({
       email,
-      password
+      password,
     })
     if (error) throw error
   }
  
-  const signUp = async (email: string, password: string) => {
+  const signup = async (email: string, password: string) => {
     const { error } = await supabase.auth.signUp({
       email,
-      password
+      password,
     })
     if (error) throw error
   }
@@ -55,7 +55,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
  
   return (
-    <AuthContext.Provider value={{ user, loading, signIn, signUp, signOut }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        signIn,
+        signup,
+        signOut,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   )

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Sidebar from './Sidebar'
 import Header from './Header'
-import RefreshContext from '../context/RefreshContest'
+import RefreshContext from '../context/RefreshContext'
  
 type Props = {
   children: React.ReactNode
@@ -11,12 +11,13 @@ const DashboardLayout = ({ children }: Props) => {
   const [refreshKey, setRefreshKey] = useState(0)
  
   const handleRefresh = () => {
+    console.log('Refresh clicked')
     setRefreshKey((prev) => prev + 1)
   }
  
   return (
     <RefreshContext.Provider value={{ refreshKey }}>
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', minHeight: '100vh' }}>
         <Sidebar />
  
         <div style={{ flex: 1 }}>

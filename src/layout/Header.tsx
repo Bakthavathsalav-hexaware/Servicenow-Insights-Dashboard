@@ -16,14 +16,11 @@ const Header = ({ onRefresh }: HeaderProps) => {
         padding: 16,
         height: 60,
         borderBottom: '1px solid #e0e0e0',
+        backgroundColor: '#fff',
       }}
     >
-      {/* Left side */}
-      <div>
-        <strong>Dashboard</strong>
-      </div>
+      <strong>Dashboard</strong>
  
-      {/* Right side */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
         {user?.email && <span>{user.email}</span>}
  
